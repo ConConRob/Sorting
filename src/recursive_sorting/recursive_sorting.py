@@ -19,23 +19,24 @@ def merge_sort(arr):
     # return the sorted array
     return arr
 
+# must have 2 sorted lists
+
 
 def handle_merge(arr1, arr2):
     index1 = 0
-
     while index1 < len(arr1) and len(arr2):
         if arr2[0] < arr1[index1]:
             # removes item from arr2 and puts it in
             arr1.insert(index1, arr2.pop(0))
         # goes to the next index
+        # no else because if new item is added to this index we still want to go to next
         index1 += 1
-
     arr1.extend(arr2)
     return arr1
 
 
 # print(handle_merge([7], [1, 1]))
-print(merge_sort([2, 1, 1, 2, 2, 1]))
+# print(merge_sort([2, 1, 1, 2, 2, 1]))
 # STRETCH: implement an in-place merge sort algorithm
 
 
