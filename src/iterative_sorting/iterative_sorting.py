@@ -19,7 +19,19 @@ def selection_sort(arr):
 
 
 def bubble_sort(arr):
-
+    is_not_sorted = True
+    while is_not_sorted:
+        is_not_sorted = False
+        # loop all elements
+        for cur_index in range(0, len(arr) - 1):
+            # check the next el
+            if arr[cur_index] > arr[cur_index + 1]:
+                # is_not_sorted
+                is_not_sorted = True
+                # switch and loop
+                current = arr[cur_index]
+                arr[cur_index] = arr[cur_index + 1]
+                arr[cur_index + 1] = current
     return arr
 
 
@@ -27,3 +39,6 @@ def bubble_sort(arr):
 def count_sort(arr, maximum=-1):
 
     return arr
+
+
+print(bubble_sort([5, 4,  123123, 3, 2, 1]))
