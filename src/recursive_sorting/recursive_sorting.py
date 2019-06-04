@@ -1,3 +1,4 @@
+import time
 import random
 
 
@@ -5,21 +6,23 @@ def partition(data):
     left = []
     pivot = data[0]
     right = []
+
     for v in data[1:]:
         if v <= pivot:
             left.append(v)
         else:
             right.append(v)
+
     return left, pivot, right
 
 
-def quick_sort(data):
-    # pivot
+def quicksort(data):
     if data == []:
         return data
-    left, right, pivot = partition(data)
-    # recursively quick sort lHS and RHS
-    return quick_sort(left) + [pivot] + quick_sort(right)
+
+    left, pivot, right = partition(data)
+
+    return quicksort(left) + [pivot] + quicksort(right)
 
 
 # TO-DO: implement the Merge Sort function below USING RECURSION
@@ -107,7 +110,7 @@ def merge_sort_in_place(arr, l, r):
 
 # make array into chunks of 32 to 64 items and use insertion sort.
 # then
-def insertionSort(arr):
+def insertionsort(arr):
 
     # Traverse through 1 to len(arr)
     for i in range(1, len(arr)):
@@ -120,27 +123,136 @@ def insertionSort(arr):
     return arr
 
 
-def timsort(arr):
-    arr1 = None
-    arr2 = None
-    # base case
-    if len(arr) <= 64:
-        return insertionSort(arr)
+# def timsort(arr):
+#     arr1 = None
+#     arr2 = None
+#     # base case
+#     if len(arr) <= 64:
+#         return insertionSort(arr)
 
-    # if arr is larger then 32 items take off 32 items and do insertion sort
-    if len(arr) > 128:
-        # split off 64 long piece
-        arr1 = timsort(arr[:64])
-        arr2 = timsort(arr[64:])
-    elif len(arr) > 64:
-        # dived arr in half
-        mid = (len(arr)-1)//2
-        arr1 = timsort(arr[:mid])
-        arr2 = timsort(arr[mid:])
-    # merge sort left and right part of array
+#     # if arr is larger then 32 items take off 32 items and do insertion sort
+#     if len(arr) > 128:
+#         # split off 64 long piece
+#         arr1 = timsort(arr[:64])
+#         arr2 = timsort(arr[64:])
+#     elif len(arr) > 64:
+#         # dived arr in half
+#         mid = (len(arr)-1)//2
+#         arr1 = timsort(arr[:mid])
+#         arr2 = timsort(arr[mid:])
+#     # merge sort left and right part of array
 
-    return handle_merge(arr1, arr2)
+#     return handle_merge(arr1, arr2)
+
+# def binarysortone(arr, item, reverse=False):
+#     if reverse:
+#         # reveresed order
+#         for i in range(len(arr)):
+#             if arr[i]:
+#                 if arr[i] < item:
+#                     arr.insert(i, item)
+#                     return arr
+#     else:
+#         for i in range(len(arr)):
+#             if arr[i] > item:
+#                 arr.insert(i, item)
+#                 return arr
+#     # put it on the end
+#     arr.append(item)
+#     return arr
 
 
-test = random.sample(range(1000), 1000)
-print(timsort(test))
+# def handle_break_up(arr):
+#     arr1 = []
+#     # make chunks
+#     i = 0
+#     increasing = None
+#     while True:
+#         if increasing == True:
+#             if arr[i] <= arr[i+1]:
+#                 # the next item doesnt need to be sorted
+#                 arr1.append(arr.pop(i))
+#             else:
+#                 # sort it into the array if bellow size 32
+#                 if len(arr1) < 32:
+#                     binarysortone(arr1, arr.pop(i))
+#                 else:
+#                     # done building arr
+#                     break
+#         elif increasing == False:
+#             if arr[i] >= arr[i+1]:
+#                 # the next item doesnt need to be sorted
+#                 arr1.append(arr.pop(i))
+#             else:
+#                 # sort it into the array if bellow size 32
+#                 if len(arr1) < 32:
+#                     binarysortone(arr1, arr.pop(i), True)
+#                 else:
+#                     # done building arr
+#                     arr1.reverse()
+#                     break
+#         else:
+#             # set increasing or decreasing
+#             if arr[i] < arr[i+1]:
+#                 increasing = True
+#                 arr1.append(arr.pop(i))
+#             elif arr[i] > arr[i+1]:
+#                 increasing = False
+#                 arr1.append(arr.pop(i))
+#             else:
+#                 # equal so just check the next item
+#                 arr1.append(arr.pop(i))
+#     return arr1, arr
+
+
+# def timsort(arr):
+#     arr1 = None
+#     arr2 = None
+#     # base case
+#     if len(arr) <= 32:
+#         return insertionsort(arr)
+
+#     # if arr is larger then 32 items take off 32 items and do insertion sort
+#     if len(arr) > 32:
+#         # split off 64 long piece
+#         arr1, arr2 = handle_break_up(arr)
+#     if len(arr2) > 32:
+#         arr2 = timsort(arr2)
+#     else:
+#         arr2 = insertionsort(arr2)
+#     # merge sort left and right part of array
+#     return handle_merge(arr1, arr2)
+
+
+test = random.sample(range(100), 100)
+test_m = test.copy()
+test_t = test.copy()
+test_mp = test.copy()
+
+# # quick
+# print('\n quick')
+# start = time.time()
+# quicksort(test_m)
+# finish = time.time()
+# print(finish - start)
+
+# # merge
+# print('\n merge')
+# start = time.time()
+# merge_sort(test_m)
+# finish = time.time()
+# print(finish - start)
+
+# # merge in place
+# print('\n merge in place')
+# start = time.time()
+# merge_sort_in_place(test_mp, 0, len(test) - 1)
+# finish = time.time()
+# print(finish - start)
+
+# # tim sort
+# print('\n timsort')
+# start = time.time()
+# print(timsort(test_t))
+# finish = time.time()
+# print(finish - start)
