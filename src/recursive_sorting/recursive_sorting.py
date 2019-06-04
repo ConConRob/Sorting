@@ -1,3 +1,27 @@
+import random
+
+
+def partition(data):
+    left = []
+    pivot = data[0]
+    right = []
+    for v in data[1:]:
+        if v <= pivot:
+            left.append(v)
+        else:
+            right.append(v)
+    return left, pivot, right
+
+
+def quick_sort(data):
+    # pivot
+    if data == []:
+        return data
+    left, right, pivot = partition(data)
+    # recursively quick sort lHS and RHS
+    return quick_sort(left) + [pivot] + quick_sort(right)
+
+
 # TO-DO: implement the Merge Sort function below USING RECURSION
 def merge_sort(arr):
     # TO-DO
@@ -7,7 +31,7 @@ def merge_sort(arr):
         arr2 = merge_sort(arr[int(len(arr)/2):])
         # merge the returned arrays
         return handle_merge(arr1, arr2)
-    # return the sorted array
+    # return the sorted array -> when array length is 1
     return arr
 
 # must have 2 sorted lists
@@ -51,6 +75,7 @@ def merge_in_place(arr, start, mid, end):
                 arr.insert(l_i, arr[r_i])
                 arr.pop(r_i + 1)  # add 1 because index was shifted
                 # leave the loop
+                # move the mid over
                 mid += 1
                 break
             l_i += 1
@@ -73,9 +98,6 @@ def merge_sort_in_place(arr, l, r):
     return arr
 
 
-for i in range(2, 4):
-    print(i)
-
 # test = [1, 5, 4, 1, 3, 2, 1, 231, 1, 2, 3]
 # print(merge_sort_in_place(test, 0, len(test) - 1))
 
@@ -83,6 +105,42 @@ for i in range(2, 4):
 # hint: check out https://github.com/python/cpython/blob/master/Objects/listsort.txt
 
 
-def timsort(arr):
+# make array into chunks of 32 to 64 items and use insertion sort.
+# then
+def insertionSort(arr):
 
+    # Traverse through 1 to len(arr)
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i-1
+        while j >= 0 and key < arr[j]:
+            arr[j+1] = arr[j]
+            j -= 1
+        arr[j+1] = key
     return arr
+
+
+def timsort(arr):
+    arr1 = None
+    arr2 = None
+    # base case
+    if len(arr) <= 64:
+        return insertionSort(arr)
+
+    # if arr is larger then 32 items take off 32 items and do insertion sort
+    if len(arr) > 128:
+        # split off 64 long piece
+        arr1 = timsort(arr[:64])
+        arr2 = timsort(arr[64:])
+    elif len(arr) > 64:
+        # dived arr in half
+        mid = (len(arr)-1)//2
+        arr1 = timsort(arr[:mid])
+        arr2 = timsort(arr[mid:])
+    # merge sort left and right part of array
+
+    return handle_merge(arr1, arr2)
+
+
+test = random.sample(range(1000), 1000)
+print(timsort(test))
